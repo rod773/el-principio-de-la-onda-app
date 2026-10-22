@@ -1,10 +1,14 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useSyncExternalStore } from "react";
 import pages from "@/pages.json";
 
 const supported =
   typeof window !== "undefined" && "speechSynthesis" in window;
+
+const subscribe = () => () => {};
+const unsupportedClient = () => !supported;
+const unsupportedServer = () => false;
 
 const splitText = (text: string): string[] => {
   const lines = text
@@ -36,6 +40,11 @@ export default function Home() {
   const [volume, setVolume] = useState(1);
   const [auto, setAuto] = useState(true);
   const [reading, setReading] = useState(false);
+  const unsupported = useSyncExternalStore(
+    subscribe,
+    unsupportedClient,
+    unsupportedServer,
+  );
 
   const readingRef = useRef(false);
   const sessionRef = useRef(0);
@@ -190,7 +199,7 @@ export default function Home() {
     <main className="flex min-h-screen flex-col items-center gap-4 p-4">
       <h1 className="text-2xl font-bold">The Wave Principle</h1>
       <p className="text-sm opacity-70">R. N. Elliott (1938)</p>
-      {!supported && (
+      {unsupported && (
         <p className="text-sm text-red-600">
           Tu navegador no soporta la API de síntesis de voz (speechSynthesis).
         </p>
