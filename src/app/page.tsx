@@ -201,27 +201,27 @@ export default function Home() {
       <p className="text-sm opacity-70">R. N. Elliott (1938)</p>
       {unsupported && (
         <p className="text-sm text-red-600">
-          Tu navegador no soporta la API de síntesis de voz (speechSynthesis).
+          Your browser does not support the speech synthesis API (speechSynthesis).
         </p>
       )}
       <div className="flex gap-2 items-center flex-wrap justify-center">
         <button disabled={i === 0} onClick={() => goto(i - 1)} className="px-3 py-1 border rounded">
-          Anterior
+          Previous
         </button>
         <select
           value={i}
           onChange={(e) => goto(Number(e.target.value))}
           className="border rounded px-2 py-1 text-sm"
-          aria-label="Seleccionar página"
+          aria-label="Select page"
         >
           {pages.map((p, idx) => (
             <option key={p.page} value={idx}>
-              Página {p.page} / {pages.length}
+              Page {p.page} / {pages.length}
             </option>
           ))}
         </select>
         <button disabled={i === pages.length - 1} onClick={() => goto(i + 1)} className="px-3 py-1 border rounded">
-          Siguiente
+          Next
         </button>
         <select
           value={voiceName}
@@ -259,20 +259,20 @@ export default function Home() {
               autoRef.current = e.target.checked;
             }}
           />
-          Auto-avance
+          Auto-advance
         </label>
         <button onClick={() => speakPage(i)} className="px-3 py-1 border rounded">
-          Leer
+          Read
         </button>
         <button onClick={stopReading} className="px-3 py-1 border rounded">
-          Detener
+          Stop
         </button>
-        {reading && <span className="text-sm text-green-600">Leyendo…</span>}
+        {reading && <span className="text-sm text-green-600">Reading…</span>}
       </div>
       {/* eslint-disable-next-line @next/next/no-img-element -- páginas escaneadas del PDF */}
       <img
         src={pageSrc(page.page)}
-        alt={`Página ${page.page}`}
+        alt={`Page ${page.page}`}
         className="max-w-full border"
       />
     </main>
