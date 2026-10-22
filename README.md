@@ -1,36 +1,64 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# The Wave Principle — Lector en voz alta
 
-## Getting Started
+Aplicación web (Next.js) para escuchar el libro *"The Wave Principle"* de R. N. Elliott (1938) de forma auditiva, mostrando la página escaneada original y desplazándose automáticamente mientras se lee.
 
-First, run the development server:
+Basada en [elliot-wave-app](https://github.com/rod773/elliot-wave-app) (lector del libro de Frost & Prechter), adaptada a este libro en inglés.
+
+## Características
+
+- **Lectura en voz alta** con la API nativa `speechSynthesis` del navegador (sin servicios externos).
+- **Voz en inglés**: prefiere voces `en-US`, con fallback a otras voces en inglés.
+- **Selección de voz**, **control de volumen**, **auto-avance** a la siguiente página.
+- **Auto-scroll**: la vista se desplaza en proporción al progreso de la lectura.
+- **Navegación manual** (Anterior / Siguiente) y selector de página.
+- **Imágenes originales**: cada página se muestra como imagen escaneada (`public/pages/page-NNN.png`).
+
+## Cómo funciona
+
+- `src/app/page.tsx` contiene toda la lógica de la aplicación.
+- El texto de cada página proviene de `src/pages.json` (205 páginas con `{ page, text }`), generado por OCR del PDF (`npm run generate`).
+- El texto se divide en fragmentos; cada uno se envuelve en un `SpeechSynthesisUtterance` y se encadenan por `onend`.
+- Se estima la duración de cada fragmento (`max(6000, longitud * 150)`) para calcular el progreso y animar el scroll.
+
+## Ejecutar en local
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Abre [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Scripts
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Comando | Descripción |
+| --- | --- |
+| `npm run dev` | Servidor de desarrollo |
+| `npm run build` | Build de producción |
+| `npm start` | Servir el build de producción |
+| `npm run lint` | Linter (ESLint) |
+| `npm run generate` | Regenera `src/pages.json` desde `../the-wave-principle/texts` |
 
-## Learn More
+## Estructura
 
-To learn more about Next.js, take a look at the following resources:
+```
+the-wave-app/
+├── public/
+│   └── pages/
+│       ├── page-001.png ... page-205.png   # Páginas escaneadas
+├── scripts/
+│   └── generate-pages.cjs                  # Generador de pages.json
+├── src/
+│   ├── app/
+│   │   ├── layout.tsx      # Layout raíz (fuentes Geist, metadata)
+│   │   ├── page.tsx        # Toda la lógica de lectura y UI
+│   │   └── globals.css     # Estilos globales (Tailwind + tema claro/oscuro)
+│   └── pages.json          # Texto de las 205 páginas
+├── package.json
+└── README.md
+```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Notas
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- El contenido escaneado e imágenes pertenecen a la edición original del libro y se usan aquí únicamente con fines personales/educativos.
+- La lectura en voz alta depende de las voces instaladas en el navegador/sistema.
