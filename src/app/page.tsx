@@ -75,14 +75,14 @@ export default function Home() {
   useEffect(() => {
     if (!supported) return;
     const load = () => {
-      const v = window.speechSynthesis.getVoices().filter((x) => /^en/i.test(x.lang));
+      const v = window.speechSynthesis.getVoices().filter((x) => /^es/i.test(x.lang));
       setVoices(v);
       setVoiceName((prev) => {
         const next =
           prev ||
-          v.find((x) => /^en[-_]US/i.test(x.lang) && /natural|neural|google|online/i.test(x.name))?.name ||
-          v.find((x) => /^en[-_]US/i.test(x.lang))?.name ||
-          v.find((x) => /^en[-_]GB/i.test(x.lang))?.name ||
+          v.find((x) => /sebastian/i.test(x.name))?.name ||
+          v.find((x) => /^es[-_]ES/i.test(x.lang))?.name ||
+          v.find((x) => /^es/i.test(x.lang))?.name ||
           v[0]?.name ||
           "";
         voiceNameRef.current = next;
@@ -100,9 +100,9 @@ export default function Home() {
     const vs = window.speechSynthesis.getVoices();
     return (
       vs.find((v) => v.name === voiceNameRef.current) ||
-      vs.find((v) => /^en[-_]US/i.test(v.lang) && /natural|neural|google|online/i.test(v.name)) ||
-      vs.find((v) => /^en[-_]US/i.test(v.lang)) ||
-      vs.find((v) => /^en/i.test(v.lang)) ||
+      vs.find((v) => /^es/i.test(v.lang) && /sebastian/i.test(v.name)) ||
+      vs.find((v) => /^es[-_]ES/i.test(v.lang)) ||
+      vs.find((v) => /^es/i.test(v.lang)) ||
       null
     );
   };
@@ -139,9 +139,9 @@ export default function Home() {
       const voice = pickVoice();
       if (voice) {
         u.voice = voice;
-        u.lang = voice.lang || "en-US";
+        u.lang = voice.lang || "es-ES";
       } else {
-        u.lang = "en-US";
+        u.lang = "es-ES";
       }
       u.volume = volumeRef.current;
 
@@ -201,27 +201,27 @@ export default function Home() {
       <p className="text-sm opacity-70">R. N. Elliott (1938)</p>
       {unsupported && (
         <p className="text-sm text-red-600">
-          Your browser does not support the speech synthesis API (speechSynthesis).
+          Tu navegador no soporta la API de síntesis de voz (speechSynthesis).
         </p>
       )}
       <div className="flex gap-2 items-center flex-wrap justify-center">
         <button disabled={i === 0} onClick={() => goto(i - 1)} className="px-3 py-1 border rounded">
-          Previous
+          Anterior
         </button>
         <select
           value={i}
           onChange={(e) => goto(Number(e.target.value))}
           className="border rounded px-2 py-1 text-sm"
-          aria-label="Select page"
+          aria-label="Seleccionar página"
         >
           {pages.map((p, idx) => (
             <option key={p.page} value={idx}>
-              Page {p.page} / {pages.length}
+              Página {p.page} / {pages.length}
             </option>
           ))}
         </select>
         <button disabled={i === pages.length - 1} onClick={() => goto(i + 1)} className="px-3 py-1 border rounded">
-          Next
+          Siguiente
         </button>
         <select
           value={voiceName}
@@ -259,20 +259,20 @@ export default function Home() {
               autoRef.current = e.target.checked;
             }}
           />
-          Auto-advance
+          Auto-avance
         </label>
         <button onClick={() => speakPage(i)} className="px-3 py-1 border rounded">
-          Read
+          Leer
         </button>
         <button onClick={stopReading} className="px-3 py-1 border rounded">
-          Stop
+          Detener
         </button>
-        {reading && <span className="text-sm text-green-600">Reading…</span>}
+        {reading && <span className="text-sm text-green-600">Leyendo…</span>}
       </div>
       {/* eslint-disable-next-line @next/next/no-img-element -- páginas escaneadas del PDF */}
       <img
         src={pageSrc(page.page)}
-        alt={`Page ${page.page}`}
+        alt={`Página ${page.page}`}
         className="max-w-full border"
       />
     </main>

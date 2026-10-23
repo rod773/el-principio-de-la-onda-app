@@ -7,7 +7,7 @@ Basada en [elliot-wave-app](https://github.com/rod773/elliot-wave-app) (lector d
 ## Características
 
 - **Lectura en voz alta** con la API nativa `speechSynthesis` del navegador (sin servicios externos).
-- **Voz en inglés**: prefiere voces `en-US`, con fallback a otras voces en inglés.
+- **Voz en español**: prefiere voces `es-ES`, con «Microsoft Sebastian» como voz predeterminada.
 - **Selección de voz**, **control de volumen**, **auto-avance** a la siguiente página.
 - **Auto-scroll**: la vista se desplaza en proporción al progreso de la lectura.
 - **Navegación manual** (Anterior / Siguiente) y selector de página.
