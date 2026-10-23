@@ -80,6 +80,8 @@ export default function Home() {
       setVoiceName((prev) => {
         const next =
           prev ||
+          v.find((x) => /raul/i.test(x.name))?.name ||
+          v.find((x) => /^es[-_]MX/i.test(x.lang))?.name ||
           v.find((x) => /sebastian/i.test(x.name))?.name ||
           v.find((x) => /^es[-_]ES/i.test(x.lang))?.name ||
           v.find((x) => /^es/i.test(x.lang))?.name ||
@@ -100,6 +102,8 @@ export default function Home() {
     const vs = window.speechSynthesis.getVoices();
     return (
       vs.find((v) => v.name === voiceNameRef.current) ||
+      vs.find((v) => /raul/i.test(v.name)) ||
+      vs.find((v) => /^es[-_]MX/i.test(v.lang)) ||
       vs.find((v) => /^es/i.test(v.lang) && /sebastian/i.test(v.name)) ||
       vs.find((v) => /^es[-_]ES/i.test(v.lang)) ||
       vs.find((v) => /^es/i.test(v.lang)) ||
