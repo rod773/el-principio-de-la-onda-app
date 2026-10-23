@@ -32,7 +32,7 @@ function fixMojibake(s) {
 
 const files = fs
   .readdirSync(textsDir)
-  .filter((f) => /^page_\d+\.txt$/.test(f))
+  .filter((f) => /^(page|pagina)_\d+\.txt$/.test(f))
   .sort();
 
 const pages = files.map((f) => {
