@@ -8,7 +8,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "generate": "node scripts/generate-pages.cjs"
+    "generate": "python scripts/generate-pages.py"
   },
   "dependencies": {
     "next": "16.4.2",
